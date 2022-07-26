@@ -4,10 +4,12 @@ using namespace std;
 struct union_find {
 
   private:
+
 	int cnt;
 	vector<int> sizes, link;
  
   public:
+
 	union_find() {}
  
 	union_find(int n) : cnt(n), sizes(n, 1), link(n, 0) { iota(link.begin(), link.end(), 0); }
@@ -40,11 +42,14 @@ int main() {
 	ios::sync_with_stdio(0);
 	cin.tie(0);
  
-	int n, m; cin >> n >> m;
+	int n, m; 
+	cin >> n >> m;
 	union_find uf(n);
 	for (int i = 0; i < m; ++i) {
-		int a, b; cin >> a >> b; 
-		uf.unite(a - 1, b - 1);
+		int a, b; 
+		cin >> a >> b; 
+		a--, b--;
+		uf.unite(a, b);
 	}
 	int ans = 0;
 	for (int i = 0; i < n; ++i) ans = max(ans, uf.size(i));
