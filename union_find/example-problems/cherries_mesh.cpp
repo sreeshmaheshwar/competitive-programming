@@ -1,5 +1,10 @@
-#include <bits/stdc++.h>
+#include <stdio.h>
+#include <vector>
+#include <algorithm>
+#include <numeric>
 using namespace std;
+
+/* Solution to https://codingcompetitions.withgoogle.com/kickstart/round/0000000000050edb/0000000000170721 */
 
 struct union_find {
 
@@ -32,27 +37,20 @@ struct union_find {
 	int count() const { return cnt; }	
 };
 
-/*
-Example Main Program:
-(solution to https://atcoder.jp/contests/abc177/tasks/abc177_d)
-*/
-
 int main() {
-	ios::sync_with_stdio(0);
-	cin.tie(0);
- 
-	int n, m; 
-	cin >> n >> m;
-	union_find uf(n);
-	for (int i = 0; i < m; ++i) {
-		int a, b; 
-		cin >> a >> b; 
-		a--, b--;
-		uf.unite(a, b);
-	}
-	int ans = 0;
-	for (int i = 0; i < n; ++i) ans = max(ans, uf.size(i));
-	cout << ans << '\n';
- 
-	return 0;
+    int T; 
+    scanf("%d\n", &T);
+    for (int test_case = 1; test_case <= T; ++test_case) {
+    	int n, m;
+    	scanf("%d %d", &n, &m);
+		union_find uf(n);
+		for (int i = 0; i < m; ++i) {
+		   int c, d;
+		   scanf("%d %d", &c, &d);
+		   c--, d--;
+		   uf.unite(c, d);
+		}
+		printf("Case #%d: %d\n", test_case, n + uf.count() - 2);
+    }
+    return 0;
 }
