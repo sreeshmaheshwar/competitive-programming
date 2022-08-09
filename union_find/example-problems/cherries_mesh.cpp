@@ -41,16 +41,16 @@ int main() {
     int T; 
     scanf("%d\n", &T);
     for (int test_case = 1; test_case <= T; ++test_case) {
-    	int n, m;
-    	scanf("%d %d", &n, &m);
-		union_find uf(n);
-		for (int i = 0; i < m; ++i) {
-		   int c, d;
-		   scanf("%d %d", &c, &d);
-		   c--, d--;
-		   uf.unite(c, d);
-		}
-		printf("Case #%d: %d\n", test_case, n + uf.count() - 2);
+        int n, m;
+        scanf("%d %d", &n, &m);
+        union_find uf(n);
+        for (int i = 0; i < m; ++i) {
+            int c, d;
+            scanf("%d %d", &c, &d);
+            c--, d--;
+            uf.unite(c, d);
+        }
+        printf("Case #%d: %d\n", test_case, n + uf.count() - 2);
     }
     return 0;
 }
