@@ -1,3 +1,8 @@
+/*
+Solution to:
+https://codingcompetitions.withgoogle.com/kickstart/round/0000000000050ff4/0000000000051183#problem
+*/
+
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -28,10 +33,6 @@ void solve() {
 	cin >> l >> r; 
 	cout << num_below(to_string(r)) - num_below(to_string(l - 1)) << '\n';
 }
-
-/*
-Solution to https://codingcompetitions.withgoogle.com/kickstart/round/0000000000050ff4/0000000000051183#problem
-*/
 
 int main() {
 	ios::sync_with_stdio(0);
