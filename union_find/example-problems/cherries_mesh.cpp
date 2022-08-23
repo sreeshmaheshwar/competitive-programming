@@ -1,7 +1,4 @@
-#include <stdio.h>
-#include <vector>
-#include <algorithm>
-#include <numeric>
+#include <bits/stdc++.h>
 using namespace std;
 
 /* Solution to https://codingcompetitions.withgoogle.com/kickstart/round/0000000000050edb/0000000000170721 */
