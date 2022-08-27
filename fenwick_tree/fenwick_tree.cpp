@@ -1,46 +1,39 @@
 #include <bits/stdc++.h>
 using namespace std;
- 
-struct fenwick_tree {
- 
-    vector<long long> bit;
+
+template<typename T> struct fenwick_tree {
+    vector<T> data;
     int n;
- 
+
     fenwick_tree(int _n) : n(_n) {
-        bit.assign(n, 0);
+        data.assign(n, T(0));
     }
  
-    fenwick_tree(vector<int> a) : fenwick_tree((int) a.size()) {
-        for (int i = 0; i < (int) a.size(); ++i) {
-        	upd_by(i, a[i]);
-        }
-    }
- 
-    long long sum(int r) {
-        long long res = 0;
+    T sum(int r) {
+        T res = T(0);
         for (; r >= 0; r = (r & (r + 1)) - 1)
-            res += bit[r];
+            res += data[r];
         return res;
     }
  
-    long long qry(int l, int r) { 
+    T qry(int l, int r) { 
+        // if (l > r) return T(0); // UNCOMMENT IF NEEDED!
         return sum(r) - sum(l - 1); 
     }
  
-    void upd_by(int idx, long long delta) { 
-        for (; idx < n; idx = idx | (idx + 1))
-            bit[idx] += delta;
+    void upd_by(int index, T delta) { 
+        for (; index < n; index = index | (index + 1))
+            data[index] += delta;
     }
 };
  
 /*
 Standard Fenwick Tree
 Usage:
-    fenwick_tree ft(n);
+    fenwick_tree<T> ft(n);
 Notes: 
-    update method uses DELTA not VALUE
+    update method uses delta NOT updated value
 */
-
 
 
 /*
@@ -55,10 +48,11 @@ int main() {
 	int n, q; 
 	cin >> n >> q;
 	vector<int> arr(n);
+	fenwick_tree<long long> ft(n);
 	for (int i = 0; i < n; ++i) {
 		cin >> arr[i];
+		ft.upd_by(i, arr[i]);
 	}
-	fenwick_tree ft(arr);
 	while (q--) {
 		int type;
 		cin >> type; 

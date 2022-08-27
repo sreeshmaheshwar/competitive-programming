@@ -1,35 +1,28 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-struct fenwick_tree {
- 
-    vector<long long> bit;
+template<typename T> struct fenwick_tree {
+    vector<T> data;
     int n;
- 
+
     fenwick_tree(int _n) : n(_n) {
-        bit.assign(n, 0);
+        data.assign(n, T(0));
     }
  
-    fenwick_tree(vector<int> a) : fenwick_tree((int) a.size()) {
-        for (int i = 0; i < (int) a.size(); ++i) {
-        	upd_by(i, a[i]);
-        }
-    }
- 
-    long long sum(int r) {
-        long long res = 0;
+    T sum(int r) {
+        T res = T(0);
         for (; r >= 0; r = (r & (r + 1)) - 1)
-            res += bit[r];
+            res += data[r];
         return res;
     }
  
-    long long qry(int l, int r) { 
+    T qry(int l, int r) {
         return sum(r) - sum(l - 1); 
     }
  
-    void upd_by(int idx, long long delta) { 
-        for (; idx < n; idx = idx | (idx + 1))
-            bit[idx] += delta;
+    void upd_by(int index, T delta) { 
+        for (; index < n; index = index | (index + 1))
+            data[index] += delta;
     }
 };
 
@@ -49,7 +42,7 @@ long long count_inversions(vector<int>& a) {
 	}
 
 	// inversion counting (from right to left):
-	fenwick_tree ft(n);
+	fenwick_tree<int> ft(n);
 	long long ans = 0;
 	for (int i = n - 1; i >= 0; --i) {
 		ans += ft.sum(a[i] - 1);
