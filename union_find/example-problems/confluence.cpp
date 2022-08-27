@@ -7,13 +7,10 @@ const int MAX_N = 2e5;
 int c[MAX_N];
 
 struct union_find {
-
   private:
-
 	vector<int> sizes, link;
  
   public:
-
   	vector<map<int, int>> class_cnt;
 
 	union_find() {}
@@ -25,13 +22,14 @@ struct union_find {
 			class_cnt[i][c[i]]++;
 	}
  
-	int find(int x) { return ( x == link[x] ? x : link[x] = find(link[x])); }
+	int find(int x) { return x == link[x] ? x : link[x] = find(link[x]); }
  
 	void unite(int x, int y) {
 		x = find(x); y = find(y);
 		if (x == y) return;
 		if (sizes[x] < sizes[y])
 			swap(x, y);
+			
 		for (auto entry : class_cnt[y])
 			class_cnt[x][entry.first] += entry.second;
 		map<int, int>().swap(class_cnt[y]);

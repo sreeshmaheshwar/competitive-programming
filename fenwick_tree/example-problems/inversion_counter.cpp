@@ -28,19 +28,16 @@ template<typename T> struct fenwick_tree {
 
 // computes number of inversions in a given array in O(N log N) time
 long long count_inversions(vector<int>& a) {
-	int n = (int) a.size();
-
+	int n = a.size();
 	// coordinate compression: (so all elements are < n)
 	vector<pair<int, int>> b(n);
 	for (int i = 0; i < n; ++i) b[i] = {a[i], i};
 	sort(b.begin(), b.end());
-
 	int id = 0;
 	for (int i = 0; i < n; ++i) {
 		if (i && b[i].first != b[i - 1].first) id++;
 		a[b[i].second] = id;
 	}
-
 	// inversion counting (from right to left):
 	fenwick_tree<int> ft(n);
 	long long ans = 0;
@@ -73,7 +70,6 @@ int main() {
 		a[i]--;
 		x[c[i]].push_back(a[i]);
 	}
-
 	long long ans = count_inversions(a);
 	for (int i = 0; i < n; ++i) {
 		ans -= count_inversions(x[i]);
