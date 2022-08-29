@@ -7,7 +7,6 @@ void solve() {
     string c;
     cin >> c;
     for (int i = 0; i < n - 1; ++i) {
-        c.at(0);
         cout << (c[0] == '-' ? '.' : '-');
         for (int j = 0; j < 9; ++j) {
             cout << (i >> j & 1 ? '-' : '.');
