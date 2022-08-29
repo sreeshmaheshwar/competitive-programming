@@ -36,7 +36,9 @@ long long num_below(string s, bool inclusive = true) {
 				}
 				add(dp[i + 1][new_mod][0], dp[i][cur_mod][0]);
 				// end of DP transitions
-				if (i % 2 == 1) break;
+				if (i % 2 == 1) {
+					break;
+				}
 			}
 		}
 	}
