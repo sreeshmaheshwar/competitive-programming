@@ -1,19 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
-
-void solve() {
-    int n;
-    cin >> n;
-    string c;
-    cin >> c;
-    for (int i = 0; i < n - 1; ++i) {
-        cout << (c[0] == '-' ? '.' : '-');
-        for (int j = 0; j < 9; ++j) {
-            cout << (i >> j & 1 ? '-' : '.');
-        }
-        cout << '\n';
-    }
-}
+const string MORSE_CHARS = "-.";
 
 int main() {
     ios::sync_with_stdio(0);
@@ -21,8 +8,18 @@ int main() {
     int T;
     cin >> T;
     for (int test_case = 1; test_case <= T; ++test_case) {
+        int N;
+        cin >> N;
+        string C;
+        cin >> C;
         cout << "Case #" << test_case << ":\n";
-        solve();
+        for (int i = 0; i < N - 1; ++i) {
+            cout << MORSE_CHARS[C[0] == MORSE_CHARS[0]];
+            for (int j = 0; j < 9; ++j) {
+                cout << MORSE_CHARS[i >> j & 1];
+            }
+            cout << '\n';
+        }
     }
     return 0;
 }

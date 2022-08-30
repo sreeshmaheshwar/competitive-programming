@@ -53,7 +53,8 @@ void solve() {
 int main() {
 	ios::sync_with_stdio(0);
 	cin.tie(0);
-	int T; cin >> T;
+	int T;
+	cin >> T;
 	for (int test_case = 1; test_case <= T; ++test_case) {
 		cout << "Case #" << test_case << ": ";
 		solve();
