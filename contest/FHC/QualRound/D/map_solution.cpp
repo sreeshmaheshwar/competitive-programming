@@ -1,3 +1,4 @@
+/* takes 1 minute to run locally */
 #include <bits/stdc++.h>
 using namespace std;
 const int ROOT = 448;
@@ -17,8 +18,8 @@ void solve() {
 	}
 	map<pair<int, int>, long long> heavy_answer;
 	auto two_path_dfs = [&](int u) -> void {
-		for (auto [node, w1] : adj[u]) {
-			for (auto [v, w2] : adj[node]) {
+		for (const auto &[node, w1] : adj[u]) {
+			for (const auto &[v, w2] : adj[node]) {
 				heavy_answer[{u, v}] += min(w1, w2);
 			}
 		}
@@ -34,13 +35,13 @@ void solve() {
 		int a, b;
 		cin >> a >> b;
 		a--, b--;
-		long long answer = (long long) weight[a][b] * 2;
+		long long answer = weight[a][b] * 2;
 		if (is_heavy[a]) {
 			answer += heavy_answer[{a, b}];
 		} else if (is_heavy[b]) {
 			answer += heavy_answer[{b, a}];
 		} else {
-			for (auto [node, w] : adj[a]) {
+			for (const auto &[node, w] : adj[a]) {
 				answer += min(w, weight[b][node]);
 			}
 		}
