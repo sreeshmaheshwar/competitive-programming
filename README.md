@@ -1,6 +1,6 @@
 # Competitive Programming
 
-An assortment of algorithms and data structures used in competitive programming (and example problems using them), as well as some fully solved contest problem sets.
+An assortment of algorithms and data structures used in competitive programming (and example problems using them), as well as some (mostly) solved contest problem sets.
 
 ## Disclaimer
 
