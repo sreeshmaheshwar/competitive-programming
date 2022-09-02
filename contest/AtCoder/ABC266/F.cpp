@@ -49,7 +49,7 @@ void cycle_dfs(int node) {
     }
 }
 
-void subtree_dfs(int node, int parent) {
+void subtree_dfs(int node, int parent = -1) {
     for (int child : adj[node]) {
         if (child == parent || is_cycle[child]) continue;
         subtree_root[child] = subtree_root[node];
@@ -58,8 +58,6 @@ void subtree_dfs(int node, int parent) {
 }
 
 int main() {
-    ios::sync_with_stdio(0);
-    cin.tie(0);
     int n;
     cin >> n;
     adj = vector<vector<int>>(n);
@@ -77,7 +75,7 @@ int main() {
     cycle_dfs(0);
     for (int node : cycle_nodes) {
         subtree_root[node] = node;
-        subtree_dfs(node, -1);
+        subtree_dfs(node);
     }
     int q;
     cin >> q;
