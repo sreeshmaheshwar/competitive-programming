@@ -23,7 +23,7 @@ long long num_below(string s) {
 				} else if (d < cur) { // tight -> not tight
 					dp[i + 1][(sum + d) % 9][0] += dp[i][sum][1];
 				}
-				dp[i + 1][(sum + d) % 9][0] += dp[i][sum][0]; // not tight -> tight
+				dp[i + 1][(sum + d) % 9][0] += dp[i][sum][0]; // not tight -> not tight
 			}
 		}
 	}
