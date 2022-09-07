@@ -26,15 +26,6 @@ template<typename T> struct fenwick_tree {
             data[index] += delta;
     }
 };
- 
-/*
-Standard Fenwick Tree
-Usage:
-    fenwick_tree<T> ft(n);
-Notes: 
-    update method uses delta NOT updated value
-*/
-
 
 /*
 Example Main Program:

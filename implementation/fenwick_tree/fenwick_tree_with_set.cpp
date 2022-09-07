@@ -17,6 +17,7 @@ template<typename T> struct fenwick_tree {
     }
  
     T qry(int l, int r) { 
+        // if (l > r) return T(0); // UNCOMMENT IF NEEDED!
         return sum(r) - sum(l - 1); 
     }
  
@@ -31,31 +32,36 @@ template<typename T> struct fenwick_tree {
     }
 };
 
+/*
+Example Main Program:
+(solution to https://cses.fi/problemset/submit/1648/)
+*/
+
 int main() {
-	ios::sync_with_stdio(0);
-	cin.tie(0);
-	int n, q; 
-	cin >> n >> q;
-	fenwick_tree<long long> ft(n);
-	for (int i = 0; i < n; ++i) {
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    int n, q; 
+    cin >> n >> q;
+    fenwick_tree<long long> ft(n);
+    for (int i = 0; i < n; ++i) {
         int a;
         cin >> a;
         ft.set(i, a);
     }
-	while (q--) {
-		int type;
-		cin >> type; 
-		if (type == 1) {
-			int ind, val;
-			cin >> ind >> val;
+    while (q--) {
+        int type;
+        cin >> type; 
+        if (type == 1) {
+            int ind, val;
+            cin >> ind >> val;
             ind--;
-            ft.set(ind - 1, val);
-		} else {
-			int l, r; 
-			cin >> l >> r; 
-			l--, r--;
-			cout << ft.qry(l, r) << '\n';
-		}
-	}
-	return 0;
+            ft.set(ind, val);
+        } else {
+            int l, r; 
+            cin >> l >> r; 
+            l--, r--;
+            cout << ft.qry(l, r) << '\n';
+        }
+    }
+    return 0;
 }
