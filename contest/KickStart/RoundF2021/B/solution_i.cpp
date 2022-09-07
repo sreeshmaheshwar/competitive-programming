@@ -1,3 +1,4 @@
+/* this solution relies on the constraint on D */
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -16,17 +17,16 @@ void solve() {
 	for (int day = 1; day <= d; ++day) {
 		for (int i : finish[day]) {
 			if (chosen.count({h[i], i})) {
-				chosen.erase({h[i], i});
-				cur -= h[i];
-			} else {
-				cands.erase({h[i], i});
-			}
-			if (chosen.size() < k && !cands.empty()) {
-				int j = prev(cands.end())->second;
-				chosen.insert({h[j], j});
-				cur += h[j];
-				cands.erase({h[j], j});
-			}
+                chosen.erase({h[i], i});
+                cur -= h[i];
+                if (!cands.empty()) {
+                    int j = cands.rbegin()->second;
+                    cands.erase({h[j], j}), chosen.insert({h[j], j});
+                    cur += h[j];
+                }
+            } else {
+                cands.erase({h[i], i});
+            }
 		}
 		for (int i : start[day]) {
 			if (chosen.size() < k) {
