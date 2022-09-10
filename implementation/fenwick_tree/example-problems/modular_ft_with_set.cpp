@@ -1,6 +1,6 @@
 /* 
 Solution to:
-https://atcoder.jp/contests/abc256/submissions/34679676 
+https://atcoder.jp/contests/abc256/tasks/abc256_f
 */
 
 #include <bits/stdc++.h>
