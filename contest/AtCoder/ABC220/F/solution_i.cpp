@@ -54,8 +54,7 @@ int main() {
     for (int i = 0; i < n - 1; ++i) {
         int u, v;
         cin >> u >> v;
-        u--, v--;
-        tree.add_edge(u, v);
+        tree.add_edge(u - 1, v - 1);
     }
     tree.build();
 
