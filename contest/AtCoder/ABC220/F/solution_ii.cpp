@@ -43,11 +43,12 @@ int main() {
     }
     tree.dfs();
     vector<long long> answer(n);
-    for (int i = 0; i < n; ++i) {
-    	answer[0] += tree.depth[i];
-    }
     for (int node : tree.in_order) {
-    	if (node) answer[node] = answer[tree.parent[node]] + n - 2 * tree.subtree_size[node];
+    	if (node) {
+			answer[node] = answer[tree.parent[node]] + n - 2 * tree.subtree_size[node];
+		} else {
+			answer[node] = accumulate(tree.depth.begin(), tree.depth.end(), (long long) 0);
+		}
     }
     for (int i = 0; i < n; ++i) {
     	cout << answer[i] << '\n';
