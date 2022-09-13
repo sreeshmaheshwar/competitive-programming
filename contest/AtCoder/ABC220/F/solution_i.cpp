@@ -6,7 +6,7 @@ struct Tree {
     vector<vector<int>> adj;
     vector<int> parent, depth, subtree_size;
     vector<int> time_in, time_out;
-    vector<int> in_order;
+    vector<int> pre_order;
 
     Tree(int _n) : n(_n) {
     	adj.assign(n, {});
@@ -23,7 +23,7 @@ struct Tree {
     }
 
     void dfs(int u) {
-    	in_order.push_back(u);
+    	pre_order.push_back(u);
     	time_in[u] = timer++;
         subtree_size[u] = 1;
         for (int v : adj[u]) {
@@ -61,7 +61,7 @@ int main() {
     vector<long long> pref_ordered_depths(n + 1);
     pref_ordered_depths[0] = 0;
     for (int i = 0; i < n; ++i) {
-        pref_ordered_depths[i + 1] = pref_ordered_depths[i] + tree.depth[tree.in_order[i]];
+        pref_ordered_depths[i + 1] = pref_ordered_depths[i] + tree.depth[tree.pre_order[i]];
     }
     auto get_sum_of_depths = [&](int root) -> long long {
         return pref_ordered_depths[tree.time_out[root]] - pref_ordered_depths[tree.time_in[root]];

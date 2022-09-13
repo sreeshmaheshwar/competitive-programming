@@ -5,7 +5,7 @@ struct Tree {
     int n;
     vector<vector<int>> adj;
     vector<int> parent, depth, subtree_size;
-    vector<int> in_order;
+    vector<int> pre_order;
 
     Tree(int _n) : n(_n) {
     	adj.assign(n, {});
@@ -20,7 +20,7 @@ struct Tree {
     }
 
     void dfs(int u = 0) {
-    	in_order.push_back(u);
+    	pre_order.push_back(u);
         subtree_size[u] = 1;
         for (int v : adj[u]) {
         	if (v == parent[u]) continue;
@@ -43,7 +43,7 @@ int main() {
     }
     tree.dfs();
     vector<long long> answer(n);
-    for (int node : tree.in_order) {
+    for (int node : tree.pre_order) {
     	if (node) {
 			answer[node] = answer[tree.parent[node]] + n - 2 * tree.subtree_size[node];
 		} else {
