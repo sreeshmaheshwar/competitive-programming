@@ -7,13 +7,10 @@ https://atcoder.jp/contests/abc242/tasks/abc242_g
 using namespace std;
 
 class Query {
-
   private:
-
     int64_t ord;
 
-    // credited to https://codeforces.com/blog/entry/61203
-    inline int64_t gilbertOrder(int x, int y, int pow, int rotate) {
+    inline int64_t gilbertOrder(int x, int y, int pow, int rotate) { // credited to https://codeforces.com/blog/entry/61203
         if (pow == 0) {
             return 0;
         }
@@ -37,9 +34,7 @@ class Query {
     inline void calcOrder() {
         ord = gilbertOrder(l, r, 21, 0);
     }
-
   public:
-
     int l, r, index;
 
     Query() {}
@@ -114,8 +109,8 @@ void solve() {
 }
 
 int main() {
-    ios::sync_with_stdio(0);
-    cin.tie(0);
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
 
     solve();
     
