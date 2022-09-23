@@ -1,3 +1,6 @@
+/* 
+https://www.facebook.com/codingcompetitions/hacker-cup/2021/round-2/problems/B
+*/
 #include <bits/stdc++.h>
 using namespace std;
 
