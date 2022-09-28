@@ -6,12 +6,12 @@ https://codingcompetitions.withgoogle.com/kickstart/round/0000000000050ff4/00000
 #include <bits/stdc++.h>
 using namespace std;
 
-// remember to use 64-bit integers where necessary (!!!)
+// remember to use 64-bit integers where necessary!
 long long dp[20][9][2];
 // DP state is (length of prefix, sum mod 9, tight)
 
 long long num_below(string s) {
-	int n = (int) s.size();
+	int n = s.size();
 	memset(dp, 0, sizeof(dp));
 	dp[0][0][1] = 1;
 	for (int i = 0; i < n; ++i) {
@@ -28,7 +28,8 @@ long long num_below(string s) {
 		}
 	}
 	long long ans = 0;
-	for (int sum = 1; sum < 9; ++ sum) ans += dp[n][sum][0] + dp[n][sum][1];
+	for (int sum = 1; sum < 9; ++ sum) 
+		ans += dp[n][sum][0] + dp[n][sum][1];
 	return ans;
 }
 
