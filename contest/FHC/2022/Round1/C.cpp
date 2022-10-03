@@ -1,15 +1,12 @@
 #include <bits/stdc++.h>
 using namespace std;
+
 constexpr long long INF = (long long) 1e18;
 
 struct point {
     long long x, y;
 
-    void read() {
-        cin >> x >> y;
-    }
-
-    long long dist2(const point& p) const {
+    long long square_dist(const point& p) const {
         return (x - p.x) * (x - p.x) + (y - p.y) * (y - p.y);
     }
 
@@ -18,57 +15,64 @@ struct point {
     }
 };
 
-// from https://cp-algorithms.com/geometry/convex-hull.html#implementation
-namespace convex_hull {
-    int orientation(point a, point b, point c) {
-        long long v = a.x * (b.y - c.y) + b.x * (c.y - a.y) + c.x * (a.y - b.y);
-        if (v < 0) return -1;
-        if (v > 0) return +1;
+namespace convex_hull { // adapted from https://cp-algorithms.com/geometry/convex-hull.html#implementation
+    int get_orientation(const point& a, const point& b, const point& c) {
+        long long C = a.x * (b.y - c.y) + b.x * (c.y - a.y) + c.x * (a.y - b.y);
+        if (C < 0) 
+        	return -1;
+        if (C > 0) 
+        	return +1;
         return 0;
     }
 
-    bool cw(point a, point b, point c, bool include_collinear) {
-        int o = orientation(a, b, c);
-        return o < 0 || (include_collinear && o == 0);
+    bool clockwise(const point& a, const point& b, const point& c, bool include_collinear) {
+        int orientation = get_orientation(a, b, c);
+        return orientation < 0 || (include_collinear && !orientation);
     }
 
-    bool collinear(point a, point b, point c) {
-        return orientation(a, b, c) == 0;
+    bool collinear(const point& a, const point& b, const point& c) {
+        return !get_orientation(a, b, c);
     }
     
-    void convex_hull(vector<point>& a, bool include_collinear = false) {
-        point p0 = *min_element(a.begin(), a.end(), [](point a, point b) {
+    void convex_hull(vector<point>& points, bool include_collinear = false) {
+        point base_point = *min_element(points.begin(), points.end(), [](const point& a, const point& b) {
             return make_pair(a.y, a.x) < make_pair(b.y, b.x);
         });
-        sort(a.begin(), a.end(), [&p0](const point& a, const point& b) {
-            int o = orientation(p0, a, b);
-            if (o == 0)
-                return (p0.x-a.x)*(p0.x-a.x) + (p0.y-a.y)*(p0.y-a.y)
-                    < (p0.x-b.x)*(p0.x-b.x) + (p0.y-b.y)*(p0.y-b.y);
-            return o < 0;
+
+        sort(points.begin(), points.end(), [&base_point](const point& a, const point& b) {
+            int orientation = get_orientation(base_point, a, b);
+            if (orientation == 0) {
+                return (base_point.x - a.x) * (base_point.x - a.x) + (base_point.y - a.y) * (base_point.y - a.y)
+                     < (base_point.x - b.x) * (base_point.x - b.x) + (base_point.y - b.y) * (base_point.y - b.y);
+            }
+            return orientation < 0;
         });
+
         if (include_collinear) {
-            int i = (int) a.size() - 1;
-            while (i >= 0 && collinear(p0, a[i], a.back())) i--;
-            reverse(a.begin() + i + 1, a.end());
+            int i = (int) points.size() - 1;
+            while (i >= 0 && collinear(base_point, points[i], points.back()))
+            	i--;
+            reverse(points.begin() + i + 1, points.end());
         }
-        vector<point> st;
-        for (int i = 0; i < (int) a.size(); i++) {
-            while (st.size() > 1 && !cw(st[st.size()-2], st.back(), a[i], include_collinear))
-                st.pop_back();
-            st.push_back(a[i]);
+
+        vector<point> hull;
+        for (int i = 0; i < (int) points.size(); i++) {
+            while (hull.size() > 1 && !clockwise(hull[hull.size() - 2], hull.back(), points[i], include_collinear))
+                hull.pop_back();
+            hull.push_back(points[i]);
         }
-        a = st;
+        points = hull;
     }
 }
 
-void solve() {
+long long solve() {
     int n;
     cin >> n;
     long long k, d;
     cin >> k >> d;
     vector<point> points(n);
-    for (point& pt : points) pt.read();
+    for (auto& [x, y] : points)
+        cin >> x >> y;
 
     convex_hull::convex_hull(points);
     sort(points.begin(), points.end());
@@ -85,10 +89,10 @@ void solve() {
 
         visited[node] = true;
         for (int i = 0; i < n; ++i)
-            if (points[node].dist2(points[i]) <= d * d)
-                dist[i] = min(dist[i], dist[node] + max(k, points[node].dist2(points[i])));
-    }
-    cout << (dist.back() == INF ? -1 : dist.back()) << '\n';
+            if (points[node].square_dist(points[i]) <= d * d)
+                dist[i] = min(dist[i], dist[node] + max(k, points[node].square_dist(points[i])));
+   }
+   return dist.back() == INF ? -1 : dist.back();
 }
 
 int main() {
@@ -99,8 +103,7 @@ int main() {
     cin >> T;
     for (int test_case = 1; test_case <= T; ++test_case) {
         cerr << "Doing Case #" << test_case << endl;
-        cout << "Case #" << test_case << ": ";
-        solve();
+        cout << "Case #" << test_case << ": " << solve() << '\n';
     }
     
     return 0;
