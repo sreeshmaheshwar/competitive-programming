@@ -1,79 +1,82 @@
 #include <bits/stdc++.h>
-using namespace std;
 
+/* Description: Disjoint Set Union data structure, with
+   path compression and union by size optimisations, to
+   allow for near constant time (amortized) queries. */
 struct union_find {
   private:
-    vector<int> sizes;
-    vector<int> link;
-    int n;
+    int num_components;
+    std::vector<int> sizes, link;
 
   public:
-    union_find(int _n) : sizes(_n, 1), link(_n), n(_n) {
-        iota(link.begin(), link.end(), 0);
+    union_find(int _num_components) : num_components(_num_components) {
+        sizes.assign(num_components, 1);
+        link.resize(num_components);
+        std::iota(link.begin(), link.end(), 0);
     }
 
-    int find(int x) {
-        return x == link[x] ? x : link[x] = find(link[x]);
-    }
+    int count() const { return num_components; }
+    int size(int x) { return sizes[find(x)]; }
+    int find(int x) { return x == link[x] ? x : link[x] = find(link[x]); }
 
     bool unite(int x, int y) {
         x = find(x), y = find(y);
-        if (x != y) {
-            if (sizes[x] > sizes[y]) swap(x, y);
-            sizes[y] += sizes[x];
-            link[x] = y;
-            return true;
-        }
-        return false;
-    }
-
-    int size(int x) {
-        return sizes[x];
+        if (x == y) return false;
+        /* Ensure that y is a smaller set than x. */
+        if (sizes[x] < sizes[y]) std::swap(x, y);
+        /* Merge y into x. */
+        sizes[x] += sizes[y];
+        link[y] = x;
+        num_components--;
+        return true;
     }
 };
 
 int main() {
+    std::ios::sync_with_stdio(false);
+    std::cin.tie(nullptr);
+
     int tests;
-    cin >> tests;
+    std::cin >> tests;
 
     for (int test = 1; test <= tests; ++test) {
         int n;
-        cin >> n;
+        std::cin >> n;
 
-        vector<int> a(n);
+        std::vector<int> a(n);
         for (int i = 0; i < n; ++i) 
-            cin >> a[i], a[i]--;
+            std::cin >> a[i], a[i]--;
 
         union_find uf(n);
         for (int i = 0; i < n; ++i) 
             uf.unite(i, a[i]);
 
-        vector<int> sizes;
+        std::vector<int> sizes;
         for (int i = 0; i < n; ++i)
             if (i == uf.find(i))
                 sizes.push_back(uf.size(i));
 
-        sort(sizes.begin(), sizes.end(), greater<int>());
+        std::sort(sizes.begin(), sizes.end(), std::greater<int>());
 
-        vector<int> pref = {0}, size_freq(n + 1);
+        std::vector<int> pref = {0}, size_freq(n + 1);
         for (int s : sizes) {
             pref.push_back(pref.back() + s);
             size_freq[s]++;
         }
         
-        vector<int> min_subset(n + 1, n + 2);
+        std::vector<int> min_subset(n + 1, n + 2);
         min_subset[0] = 0;
         for (int s = 1; s <= n; ++s) {
             if (!size_freq[s]) continue;
             auto new_min_subset = min_subset;
             for (int i = 0; i < s; ++i) {
-                deque<pair<int, int>> dq;
+                std::deque<std::pair<int, int>> dq;
                 for (int j = i, k = 0; j <= n; j += s, ++k) {
                     while (!dq.empty() && dq.front().second < k - size_freq[s]) 
                         dq.pop_front();
 
                     if (!dq.empty())
-                        new_min_subset[j] = min(new_min_subset[j], dq.front().first + k);
+                        new_min_subset[j] = std::min(new_min_subset[j], dq.front().first + k);
 
                     while (!dq.empty() && dq.back().first >= min_subset[j] - k)
                         dq.pop_back();
@@ -84,12 +87,10 @@ int main() {
             min_subset = new_min_subset;
         }
         
-        cout << "Case #" << test << ": ";
+        std::cout << "Case #" << test << ": ";
         for (int i = 1; i <= n; ++i)
-            cout << min(int(lower_bound(pref.begin() + 1, pref.end(), i) - pref.begin()), min_subset[i] - 1) << " ";
+            std::cout << std::min(int(std::lower_bound(pref.begin() + 1, pref.end(), i) - pref.begin()), min_subset[i] - 1) << " ";
 
-        cout << '\n';
+        std::cout << std::endl;
     }
-
-    return 0;
 }
