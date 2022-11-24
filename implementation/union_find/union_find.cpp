@@ -32,6 +32,11 @@ struct union_find {
     }
 };
 
+/*
+Example Main Program:
+(solution to https://atcoder.jp/contests/abc177/tasks/abc177_d)
+*/
+
 int main() { 
     int n, m;
     std::cin >> n >> m;
