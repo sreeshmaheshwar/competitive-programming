@@ -1,12 +1,13 @@
 #include <iostream>
 
-static constexpr int MOD = 998244353;
+static constexpr int MOD = int(1e9) + 7;
 
 struct mod_int {
   private:
     int val;
 
   public:
+    mod_int() : val(0) {}
     mod_int(int _val) : val(_val) {}
     mod_int(long long _val) : val(_val % MOD) {}
 
@@ -38,27 +39,37 @@ struct mod_int {
         return *this;
     }
 
-    mod_int operator+(const mod_int& other) const { return mod_int(*this) += other; }
-    mod_int operator-(const mod_int& other) const { return mod_int(*this) -= other; }
-    mod_int operator*(const mod_int& other) const { return mod_int(*this) *= other; }
-    mod_int operator/(const mod_int& other) const { return mod_int(*this) /= other; }
+    friend mod_int operator+(const mod_int& x, const mod_int& y) { return mod_int(x) += y; }
+    friend mod_int operator-(const mod_int& x, const mod_int& y) { return mod_int(x) -= y; }
+    friend mod_int operator*(const mod_int& x, const mod_int& y) { return mod_int(x) *= y; }
+    friend mod_int operator/(const mod_int& x, const mod_int& y) { return mod_int(x) /= y; }
     friend std::ostream& operator<<(std::ostream& os, mod_int x) { return os << x.val; }
 };
 
-/* 
-Example main program,
-solution to: https://atcoder.jp/contests/abc238/tasks/abc238_c
+/*
+Example use, solution to:
+https://cses.fi/problemset/task/1079
 */
 
+#include <vector>
+
+std::vector<mod_int> factorial, inv_factorial;
+
+void precompute_factorials(int maximum) {
+    factorial.resize(maximum + 1);
+    inv_factorial.resize(maximum + 1);
+    for (int i = 0; i <= maximum; ++i) {
+        factorial[i] = (i == 0 ? 1 : i * factorial[i - 1]);
+        inv_factorial[i] = 1 / factorial[i];
+    }
+}
+
 int main() {
-    long long n;
+    precompute_factorials(int(1e6));
+    int n;
     std::cin >> n;
-
-    auto sum = [](mod_int n) -> mod_int { return n * (n + 1) / 2; };
-
-    mod_int ans = 0;
-    for (long long i = 1; i <= n; i *= 10)
-        ans += sum(std::min(n + 1, i * 10) - i);
-
-    std::cout << ans << std::endl;
+    for (int i = 0, a, b; i < n; ++i) {
+        std::cin >> a >> b;
+        std::cout << factorial[a] * inv_factorial[b] * inv_factorial[a - b] << std::endl;
+    }
 }
