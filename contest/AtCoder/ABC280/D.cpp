@@ -18,7 +18,7 @@ int main() {
     std::cin >> k;
     auto prime_factors = prime_factorise(k);
 
-    auto factorial_is_mutliple = [&](int64_t n) -> bool {
+    auto factorial_is_multiple = [&](int64_t n) -> bool {
         for (auto [factor, count] : prime_factors) {
             for (int64_t i = factor; i <= n; i *= factor) count -= n / i;
             if (count > 0) return false;
@@ -29,7 +29,7 @@ int main() {
     int64_t low = 1, high = k + 1;
     while (low < high) {
         int64_t mid = (low + high) / 2;
-        (factorial_is_mutliple(mid) ? high = mid : low = mid + 1);
+        (factorial_is_multiple(mid) ? high = mid : low = mid + 1);
     }
     std::cout << low;
 }
